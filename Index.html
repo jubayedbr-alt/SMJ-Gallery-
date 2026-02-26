@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMJ Gallery - Premium Aesthetic Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===================== GLOBAL STYLES ===================== */
+        *{ margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; font-family:'Poppins',sans-serif; }
+        body{ background:#f4f6f9; }
+        h1,h2,h3{ font-weight:600; }
+        section{ padding:80px 8%; }
+        
+        /* ===================== NAVBAR ===================== */
+        nav{ position:sticky; top:0; background:white; padding:15px 8%; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,0.1); z-index:1000; }
+        .logo{ font-size:22px; font-weight:700; background:linear-gradient(45deg,#6a11cb,#2575fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        nav ul{ display:flex; list-style:none; }
+        nav ul li{ margin-left:25px; }
+        nav ul li a{ text-decoration:none; color:#333; font-weight:500; transition:0.3s; }
+        nav ul li a:hover{ color:#2575fc; }
+        
+        /* ===================== HERO SECTION ===================== */
+        .hero{ height:90vh; display:flex; align-items:center; justify-content:center; text-align:center; background:linear-gradient(to right,#6a11cb,#2575fc); color:white; }
+        .hero h1{ font-size:48px; }
+        .hero p{ margin:20px 0; font-size:18px; }
+        .hero button{ padding:12px 30px; border:none; background:white; color:#2575fc; font-weight:600; border-radius:30px; cursor:pointer; transition:0.3s; }
+        .hero button:hover{ transform:scale(1.1); }
+        
+        /* ===================== PRODUCTS ===================== */
+        .products{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px; }
+        .product-card{ background:white; padding:20px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.08); transition:0.3s; }
+        .product-card:hover{ transform:translateY(-10px); box-shadow:0 15px 35px rgba(0,0,0,0.15); }
+        .product-card img{ width:100%; height:250px; object-fit:cover; border-radius:10px; }
+        .product-card h3{ margin:15px 0 10px; }
+        .product-card p{ font-size:14px; color:#555; }
+        .price{ font-weight:700; margin:10px 0; color:#2575fc; font-size:18px; }
+        .product-card button{ padding:10px 20px; border:none; background:linear-gradient(45deg,#6a11cb,#2575fc); color:white; border-radius:25px; cursor:pointer; transition:0.3s; margin-right:10px; }
+        .product-card button:hover{ transform:scale(1.05); }
+        .add-to-cart{ background:linear-gradient(45deg,#28a745,#20c997) !important; }
+        .cart-badge{ background:#dc3545; color:white; padding:2px 8px; border-radius:50%; font-size:12px; margin-left:5px; }
+        
+        /* ===================== CART SECTION ===================== */
+        .cart-section{ background:white; border-radius:15px; padding:20px; margin-top:30px; box-shadow:0 10px 25px rgba(0,0,0,0.08); }
+        .cart-item{ display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #eee; }
+        .cart-item:last-child{ border-bottom:none; }
+        .cart-total{ font-size:20px; font-weight:700; color:#2575fc; text-align:right; margin-top:15px; }
+        .checkout-btn{ background:linear-gradient(45deg,#6a11cb,#2575fc); color:white; border:none; padding:12px 30px; border-radius:25px; cursor:pointer; font-weight:600; float:right; margin-top:15px; }
+        .checkout-btn:hover{ transform:scale(1.05); }
+        .remove-item{ color:#dc3545; cursor:pointer; margin-left:15px; }
+        
+        /* ===================== MODAL FORM ===================== */
+        .modal{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:2000; }
+        .modal-content{ background:white; padding:30px; width:90%; max-width:400px; border-radius:15px; }
+        .modal-content input{ width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px; }
+        .modal-content button{ width:100%; padding:12px; background:#2575fc; border:none; color:white; border-radius:8px; cursor:pointer; font-weight:600; margin-top:10px; }
+        
+        /* ===================== PAYMENT PAGE ===================== */
+        .payment{ display:none; padding:20px; max-width:500px; margin:0 auto; }
+        .payment-box{ background:white; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+        .payment-box input{ width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px; }
+        .payment-box select{ width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px; }
+        .payment-info{ background:#f8f9fa; padding:15px; border-radius:8px; margin:15px 0; }
+        .payment-info p{ margin:5px 0; }
+        .bkash-number{ color:#2575fc; font-weight:700; font-size:18px; }
+        
+        /* ===================== CONTACT ===================== */
+        .contact form input, .contact form textarea{ width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px; }
+        .contact form button{ padding:12px 25px; background:#2575fc; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; }
+        
+        /* ===================== FOOTER ===================== */
+        footer{ background:#111; color:white; text-align:center; padding:30px 8%; }
+        footer p{ margin:5px 0; }
+        .footer-contact{ margin-top:15px; color:#aaa; }
+        
+        /* ===================== RESPONSIVE ===================== */
+        @media(max-width:768px){
+            .products{ grid-template-columns:1fr; }
+            .hero h1{ font-size:32px; }
+            nav ul li{ margin-left:15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">SMJ Gallery</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#cart" onclick="showCart()">Cart <span id="cartCount" class="cart-badge">0</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div>
+            <h1>Premium Aesthetic Collection</h1>
+            <p>Discover beautiful lighting & decor items for your home</p>
+            <button onclick="scrollToProducts()">Shop Now</button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products">
+        <h2 style="text-align:center; margin-bottom:40px;">Our Products</h2>
+        <div class="products">
+            <!-- PRODUCT 1 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1602524813989-3b7d2e16b0f4" alt="Crystal Ball">
+                <h3>Crystal Ball</h3>
+                <p>Premium aesthetic crystal ball perfect for decoration.</p>
+                <div class="price">৳1200</div>
+                <button class="add-to-cart" onclick="addToCart('Crystal Ball', 1200)">Add to Cart</button>
+                <button onclick="buyNow('Crystal Ball', 1200)">Buy Now</button>
+            </div>
+            <!-- PRODUCT 2 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" alt="Love Shape Lamp">
+                <h3>Love Shape Lamp</h3>
+                <p>Romantic love shaped lamp with soft lighting effect.</p>
+                <div class="price">৳1500</div>
+                <button class="add-to-cart" onclick="addToCart('Love Shape Lamp', 1500)">Add to Cart</button>
+                <button onclick="buyNow('Love Shape Lamp', 1500)">Buy Now</button>
+            </div>
+            <!-- PRODUCT 3 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353" alt="Decorative Lighting">
+                <h3>Decorative Lighting</h3>
+                <p>Modern decorative lighting to enhance home beauty.</p>
+                <div class="price">৳1800</div>
+                <button class="add-to-cart" onclick="addToCart('Decorative Lighting', 1800)">Add to Cart</button>
+                <button onclick="buyNow('Decorative Lighting', 1800)">Buy Now</button>
+            </div>
+            <!-- PRODUCT 4 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1618220179428-22790b461013" alt="Home Decorated Items">
+                <h3>Home Decorated Items</h3>
+                <p>Luxury home decoration item for premium interior look.</p>
+                <div class="price">৳2200</div>
+                <button class="add-to-cart" onclick="addToCart('Home Decorated Items', 2200)">Add to Cart</button>
+                <button onclick="buyNow('Home Decorated Items', 2200)">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Cart Section -->
+        <div id="cartSection" class="cart-section" style="display:none;">
+            <h3>Your Cart</h3>
+            <div id="cartItems"></div>
+            <div id="cartTotal" class="cart-total">Total: ৳0</div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    </section>
+
+    <!-- Customer Details Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Customer Details</h3>
+            <input type="text" id="customerName" placeholder="Full Name" required>
+            <input type="email" id="customerEmail" placeholder="Email Address" required>
+            <input type="text" id="customerPhone" placeholder="Phone Number" required>
+            <input type="text" id="customerAddress" placeholder="Delivery Address" required>
+            <button onclick="goToPayment()">Submit & Continue to Payment</button>
+        </div>
+    </div>
+
+    <!-- Payment Section -->
+    <section id="payment" class="payment">
+        <div class="payment-box">
+            <h2 style="text-align:center; margin-bottom:20px;">Payment Details</h2>
+            <div id="orderSummary" style="background:#f8f9fa; padding:15px; border-radius:8px; margin-bottom:20px;"></div>
+            
+            <div class="payment-info">
+                <h4>Payment Instructions:</h4>
+                <p>Send money to any of these numbers:</p>
+                <p class="bkash-number">bKash: 01999694868</p>
+                <p class="bkash-number">Nagad: 01999694868</p>
+                <p style="color:#28a745; margin-top:10px;">After payment, please fill the details below:</p>
+            </div>
+
+            <select id="paymentMethod" required>
+                <option value="">Select Payment Method</option>
+                <option value="bkash">bKash</option>
+                <option value="nagad">Nagad</option>
+            </select>
+            
+            <input type="text" id="senderNumber" placeholder="Your bKash/Nagad Number" required>
+            <input type="text" id="transactionId" placeholder="Transaction ID (TrxID)" required>
+            <input type="number" id="amount" placeholder="Amount" readonly>
+            
+            <button onclick="confirmOrder()" style="background:#28a745;">Confirm Order</button>
+            <button onclick="goBackToCart()" style="background:#6c757d; margin-top:10px;">Back to Cart</button>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 style="text-align:center; margin-bottom:40px;">Contact Us</h2>
+        <div style="max-width:600px; margin:0 auto;">
+            <form onsubmit="sendMessage(event)">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Designed by Jubayed Hasan</p>
+        <div class="footer-contact">
+            <p>Phone: 01999694868</p>
+            <p>Email: jubayed3081@gmail.com</p>
+        </div>
+    </footer>
+
+    <script>
+        // Cart System
+        let cart = [];
+        let selectedProduct = "";
+        let selectedPrice = 0;
+        let isBuyNow = false;
+
+        // Update cart count and display
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        // Add to cart
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartCount();
+            showCart();
+            alert(name + ' added to cart!');
+        }
+
+        // Show cart section
+        function showCart() {
+            const cartSection = document.getElementById('cartSection');
+            cartSection.style.display = 'block';
+            displayCartItems();
+            window.scrollTo(0, cartSection.offsetTop - 100);
+        }
+
+        // Display cart items
+        function displayCartItems() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartTotalDiv = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p style="text-align:center; padding:20px;">Your cart is empty</p>';
+                cartTotalDiv.innerHTML = 'Total: ৳0';
+                return;
+            }
+
+            let itemsHtml = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                itemsHtml += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong> - ৳${item.price}
+                        </div>
+                        <div>
+                            <span class="remove-item" onclick="removeFromCart(${index})">Remove</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItemsDiv.innerHTML = itemsHtml;
+            cartTotalDiv.innerHTML = `Total: ৳${total}`;
+        }
+
+        // Remove from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            displayCartItems();
+        }
+
+        // Buy now (direct purchase)
+        function buyNow(name, price) {
+            isBuyNow = true;
+            selectedProduct = name;
+            selectedPrice = price;
+            document.getElementById("modal").style.display = "flex";
+        }
+
+        // Scroll to products
+        function scrollToProducts() {
+            document.getElementById("products").scrollIntoView();
+        }
+
+        // Go to payment from modal
+        function goToPayment() {
+            const name = document.getElementById('customerName').value;
+            const email = document.getElementById('customerEmail').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+
+            if (!name || !email || !phone || !address) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            document.getElementById("modal").style.display = "none";
+            document.getElementById("payment").style.display = "block";
+            
+            let orderText = '';
+            let totalAmount = 0;
+            
+            if (isBuyNow) {
+                orderText = `Order: ${selectedProduct} | Price: ৳${selectedPrice}`;
+                totalAmount = selectedPrice;
+            } else {
+                let itemsList = cart.map(item => item.name).join(', ');
+                totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
+                orderText = `Items: ${itemsList} | Total: ৳${totalAmount}`;
+            }
+            
+            document.getElementById("orderSummary").innerHTML = `
+                <strong>Order Summary:</strong><br>
+                ${orderText}<br>
+                <strong>Customer:</strong> ${name}<br>
+                <strong>Phone:</strong> ${phone}<br>
+                <strong>Address:</strong> ${address}
+            `;
+            
+            document.getElementById("amount").value = totalAmount;
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        // Proceed to checkout from cart
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            isBuyNow = false;
+            document.getElementById("modal").style.display = "flex";
+        }
+
+        // Go back to cart
+        function goBackToCart() {
+            document.getElementById("payment").style.display = "none";
+            showCart();
+        }
+
+        // Confirm order with payment verification
+        function confirmOrder() {
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const senderNumber = document.getElementById('senderNumber').value;
+            const transactionId = document.getElementById('transactionId').value;
+            const amount = document.getElementById('amount').value;
+            const customerName = document.getElementById('customerName')?.value || 'N/A';
+            const customerPhone = document.getElementById('customerPhone')?.value || 'N/A';
+            const customerAddress = document.getElementById('customerAddress')?.value || 'N/A';
+
+            if (!paymentMethod || !senderNumber || !transactionId) {
+                alert('Please fill all payment details');
+                return;
+            }
+
+            if (transactionId.length < 5) {
+                alert('Please enter a valid Transaction ID');
+                return;
+            }
+
+            // Store order in localStorage
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const order = {
+                id: Date.now(),
+                date: new Date().toLocaleString(),
+                customer: customerName,
+                phone: customerPhone,
+                address: customerAddress,
+                paymentMethod: paymentMethod,
+                senderNumber: senderNumber,
+                transactionId: transactionId,
+                amount: amount,
+                items: isBuyNow ? [selectedProduct] : cart.map(item => item.name),
+                status: 'Pending'
+            };
+            
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Clear cart if not buy now
+            if (!isBuyNow) {
+                cart = [];
+                updateCartCount();
+            }
+
+            alert(`✅ Order Confirmed!\n\nThank you for shopping with SMJ Gallery.\n\nTransaction ID: ${transactionId}\nWe will verify and deliver soon.`);
+            
+            // Reset forms
+            document.getElementById("payment").style.display = "none";
+            document.getElementById("cartSection").style.display = "none";
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerEmail').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('customerAddress').value = '';
+            document.getElementById('paymentMethod').value = '';
+            document.getElementById('senderNumber').value = '';
+            document.getElementById('transactionId').value = '';
+            
+            isBuyNow = false;
+        }
+
+        // Contact form
+        function sendMessage(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            alert(`Thank you ${name}! Your message has been sent. We'll reply to ${email} soon.`);
+            
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('message').value = '';
+        }
+
+        // Load saved orders (optional - for admin)
+        function loadOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            console.log('All Orders:', orders);
+        }
+    </script>
+</body>
+</html>
